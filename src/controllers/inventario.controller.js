@@ -86,7 +86,9 @@ const createItem = async(req,res) => {
          return res.status(400).json({error:"Every value can not be null,empty,less or equal to 0"});
        }
 
-      const item = await Inventario.findByIdAndUpdate(id,body);
+      const item = await Inventario.findByIdAndUpdate(id,body)
+
+   
       if(!item) {
          return res.status(404).json({not_found:`Item with id = ${id} couldn't be found for being updated!`})
       }
@@ -98,6 +100,32 @@ const createItem = async(req,res) => {
    }
  }
 
+ const getItemById = async(req,res) => {
+   try {
+      const { id } = req.params;
+       await Inventario.findById(id)
+         .populate('user')
+         .populate('brand')
+         .populate('equipmentType')
+         .populate('equipmentStatus')
+         .then((result) =>{
+            if(!result) {
+               return res.status(404).json({error: `Item with id = ${id} does not exist!`});
+            }
+            res.status(200).json(result);
+
+         })
+      
+  
+      
+   } catch (error) {
+      res.status(401).json({error:error.message});
+   }
+    
+ }
+
+
+
  module.exports = {
     createItem,
     getAllItems,
@@ -105,5 +133,6 @@ const createItem = async(req,res) => {
     getItemsByActiveBrands,
     getItemsByEquipmentStatus,
     getItemsByEquipmentType,
-    updateItems
+    updateItems,
+    getItemById
  }

@@ -20,7 +20,7 @@ const EstadoEquipo = require("../models/EstadoEquipo");
     // }
  }
 
- const getAllEstadosEquipos = async(req,res) => {
+ const getAllEstadosEquipos = async(req,res) => { 
       await getHelper(EstadoEquipo,"Estado Equipo",res);
     // const getAll = await EstadoEquipo.find();
     // if(!getAll.length) {

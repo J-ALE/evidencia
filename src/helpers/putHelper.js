@@ -6,6 +6,7 @@ const putHelper = async(body,Schema,id,res,module) => {
 
     const marca = await Schema.findByIdAndUpdate(id,body);
     if(!marca) {
+        console.log('error');
        return res.status(404).json({not_found:`${module} with id = ${id} couldn't be found for being updated!`})
     }
     const marcaUpdated = await Schema.findById(id);

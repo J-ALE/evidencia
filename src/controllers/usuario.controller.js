@@ -6,9 +6,9 @@ const regex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 const createUsuario = async(req,res) => {
     try {
         const body = req.body;
-        const userFound = await Usuario.find({email:body.email});
+        const users = await Usuario.find();
 
-        const validator = userValidator(body,res,userFound,regex);
+        const validator = userValidator(body,res,users,regex);
         if(validator[0]) {
             return validator[1];
         }
@@ -19,6 +19,7 @@ const createUsuario = async(req,res) => {
         res.status(201).json(usuario);
         
     } catch (error) {
+        console.log(error);
         res.status(500).json({error: error.message})
     }
 }
@@ -36,9 +37,9 @@ const updateUsuario = async(req,res) => {
     try {
         const { id } = req.params;
         const body = req.body;
-        const userFound = await Usuario.find({email:body.email});
+        const users = await Usuario.find();
         
-        const validator = userValidator(body,res,userFound,regex);
+        const validator = userValidator(body,res,users,regex);
         if(validator[1]) {
             return validator[0];
         }
@@ -51,6 +52,7 @@ const updateUsuario = async(req,res) => {
         res.json(usuarioUpdated);
         
     } catch (error) {
+        console.log(error)
         res.status(500).json({error:error.message})
     }
 }
