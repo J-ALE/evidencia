@@ -4,7 +4,7 @@ const cors = require('cors');
 const dbconection = require('../database/mongoConfig');
 require('dotenv').config()
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8083;
 
 app.use(cors());
 app.use(morgan('dev'));
