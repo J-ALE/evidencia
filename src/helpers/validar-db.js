@@ -115,6 +115,7 @@ const findItemById = async(id) => {
 
 const findUserByEmail = async(email) => {
 
+
     const user = await Usuario.findOne({email});
 
     if(user) {

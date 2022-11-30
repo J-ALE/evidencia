@@ -35,9 +35,15 @@ const getAllUsuarios = async(req,res) => {
 const updateUsuario = async(req,res) => {
     
         const { id } = req.params;
-        const { name, email, rol, password, status } = req.body;
 
-        const usuarioUpdated = await Usuario.findByIdAndUpdate(id, {name, email, rol, password, status });
+        const { password, ...resto } = req.body;
+
+        const salt = bycriptjs.genSaltSync();
+        resto.password = bycriptjs.hashSync(password,salt);
+
+
+
+        const usuarioUpdated = await Usuario.findByIdAndUpdate(id, resto);
 
         res.json(usuarioUpdated)
         
