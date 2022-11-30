@@ -1,4 +1,4 @@
-const { Schema, model, version } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const InventarioSchema = Schema({
     serial:{
@@ -9,6 +9,10 @@ const InventarioSchema = Schema({
     model:{
         type:String,
         unique:true,
+        required:true
+    },
+    color:{
+        type:String,
         required:true
     },
     description:{

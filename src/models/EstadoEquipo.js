@@ -13,4 +13,14 @@ const EstadoEquipoSchema = Schema({
     }
 }, {timestamps:true,versionKey:false})
 
+EstadoEquipoSchema.methods.toJSON = function(){
+    const { _id, ...resto } = this.toObject();
+
+    resto.estado_id = _id
+
+    return resto;
+    
+    
+}
+
 module.exports = model('EstadoEquipo',EstadoEquipoSchema);

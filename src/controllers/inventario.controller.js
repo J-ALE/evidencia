@@ -1,33 +1,41 @@
 const getHelperInventory = require("../helpers/getHelperInventario");
-const inventoryValidator = require("../helpers/InventarioValidator");
+
 const Inventario = require("../models/Inventario");
-const Usuario = require("../models/Usuario");
+
 
 const createItem = async(req,res) => {
-    try {
-      const body = req.body;
-      const error = inventoryValidator(body,res);
-      if(error){
-         return res.status(400).json({error:"Every value can not be null,empty,less or equal to 0"});
-      }
-    const create = Inventario(body);
+    
+   const item = new Inventario(req.body);
 
-    await create.save()
+   await item.save();
 
-    res.json(create);
-    } catch (error) {
-      res.status(500).json({error:error.message})
-    }
-
+   res.json(item);
  }
 
  const getAllItems = async(req,res) => {
-    const result = await getHelperInventory();
-      if(!result.length){
+    
+     const [total, items] = await Promise.all([
+         Inventario.countDocuments(),
+         Inventario.find()
+         .populate('user').
+         populate("brand").
+         populate("equipmentStatus").
+         populate("equipmentType")
+     ]);
+      if(!items.length){
          return res.status(404).json({not_found:"Module type Inventario has no data"})
       }
-      res.json(result);
+      res.json({total,items});
      
+ }
+
+ const updateItems = async(req,res) => {
+      const body = req.body;
+      const { id } = req.params;
+
+      const updateItem = await Inventario.findByIdAndUpdate(id, body);
+
+      res.json(updateItem);
  }
 
  const getItemsByActiveUsers = async(req,res) => {
@@ -76,29 +84,7 @@ const createItem = async(req,res) => {
            
  }
 
- const updateItems = async(req,res) => {
-   try {
-      const body = req.body;
-      const { id } = req.params;
-
-      const error = inventoryValidator(body,res);
-      if(error){
-         return res.status(400).json({error:"Every value can not be null,empty,less or equal to 0"});
-       }
-
-      const item = await Inventario.findByIdAndUpdate(id,body)
-
-   
-      if(!item) {
-         return res.status(404).json({not_found:`Item with id = ${id} couldn't be found for being updated!`})
-      }
-      const itemUpdated = await Inventario.findById(id);
-      res.json(itemUpdated);
-
-   } catch (error) {
-        res.status(500).json({error:error.message})
-   }
- }
+ 
 
  const getItemById = async(req,res) => {
    try {

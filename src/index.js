@@ -14,6 +14,8 @@ app.use('/api/estado-equipo',require('./router/estado-equipo.router'));
 app.use('/api/usuario',require('./router/usuario.router'));
 app.use('/api/marca',require('./router/marca.router'));
 app.use('/api/inventario',require('./router/inventario.router'));
+// Ruta del servicio de autenticación de usuario
+app.use('/api/auth', require('./router/auth'));
 
 dbconection();
 
