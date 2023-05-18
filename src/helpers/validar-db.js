@@ -113,15 +113,7 @@ const findItemById = async(id) => {
     }
 }
 
-const findUserByEmail = async(email) => {
 
-
-    const user = await Usuario.findOne({email});
-
-    if(user) {
-        throw new Error(`Ya existe este usuario con el email: ${email}`);
-    }
-}
 module.exports = {
     findEstadoEquipoById,
     findMarcaById,
@@ -129,6 +121,5 @@ module.exports = {
     findUserById,
     findItemByModel,
     findItemBySerial,
-    findItemById,
-    findUserByEmail
+    findItemById
 }

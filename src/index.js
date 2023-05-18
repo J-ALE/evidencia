@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const dbconection = require('../database/mongoConfig');
+
 require('dotenv').config()
 const app = express();
 const PORT = process.env.PORT || 8083;
@@ -22,3 +23,6 @@ dbconection();
 app.listen(PORT, () => {
     console.log(`Listening to port ${PORT}`)
 })
+
+
+

@@ -10,8 +10,8 @@ const validarRol = require('../middleware/validarRol');
 const router = Router();
 
 router.post('/create', [
-    validarJWT,
-    validarRol,
+    // validarJWT,
+    // validarRol,
     check('name','El nombre no puede ser vacío').not().isEmpty(),
     check('status','El estado no puede ser vacío').not().isEmpty(),
     check('status','El estado debe ser: Active o Inactive').isIn(['Active', 'Inactive']),
@@ -19,13 +19,13 @@ router.post('/create', [
 ], createEstadoEquipo);
 
 router.get('/get-all',[
-    validarJWT,
-    validarRol,
+    // validarJWT,
+    // validarRol,
 ],getAllEstadosEquipos);
 
 router.put('/update/:id',[
-    validarJWT,
-    validarRol,
+    // validarJWT,
+    // validarRol,
     check('id','El id no es correcto: debe ser un id de mongo').isMongoId(),
     check('id').custom(findEstadoEquipoById),
     check('name','El nombre no puede ser vacío').not().isEmpty(),

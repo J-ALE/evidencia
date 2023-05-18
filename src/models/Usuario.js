@@ -10,15 +10,15 @@ const UsuarioSchema = Schema({
         required:true,
         unique:true
     },
-    password: {
-        type:String,
-        required:true
-    },
-    rol: {
-        type:String,
-        required:true,
-        enum:['ADMIN_ROLE','DOCENTE_ROLE']
-    },
+    // password: {
+    //     type:String,
+    //     required:true
+    // },
+    // rol: {
+    //     type:String,
+    //     required:true,
+    //     enum:['ADMIN_ROLE','DOCENTE_ROLE']
+    // },
     status: {
         type:String,
         required:true,

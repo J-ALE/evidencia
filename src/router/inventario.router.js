@@ -12,8 +12,8 @@ const router = Router();
 
  
 router.post('/create',[
-    validarJWT,
-    validarRol,
+    // validarJWT,
+    // validarRol,
     check('serial','El serial no puede ser vacío').not().isEmpty(),
     check('serial').custom(findItemBySerial),
     check('model', 'El modelo no puede ser vacío').not().isEmpty(),
@@ -47,8 +47,8 @@ router.post('/create',[
 router.get('/get-all',getAllItems);
 
 router.put('/update/:id',[
-    validarJWT,
-    validarRol,
+    // validarJWT,
+    // validarRol,
     check('id', 'El id debe ser un id de mongo').isMongoId(),
     check('id').custom(findItemById),
     check('serial','El serial no puede ser vacío').not().isEmpty(),

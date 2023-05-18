@@ -4,13 +4,28 @@ const Usuario = require("../models/Usuario");
 
 
 const createUsuario = async(req,res) => {
-    const { name, email, rol, password, status } = req.body;
+    const { password,rol, ...resto } = req.body;
 
-    const usuario = new Usuario({name, email, password, rol, status});
+    const user = await Usuario.findOne({email:resto.email});
+     
+   
+     if(user) {
+           console.log('Correo duplicado');
+        return res.status(400).json({
+            ok:false,
+            msg: 'Ya existe un usuario con ese email!'
+        })
+    }
 
-    const salt = bycriptjs.genSaltSync();
+    if(password) {
+        const salt = bycriptjs.genSaltSync();
+    
+        usuario.password = bycriptjs.hashSync(password,salt);
 
-    usuario.password = bycriptjs.hashSync(password,salt);
+    }
+    const usuario = new Usuario(resto);
+
+
 
     await usuario.save();
 
@@ -34,18 +49,39 @@ const getAllUsuarios = async(req,res) => {
 
 const updateUsuario = async(req,res) => {
     
+       try {
         const { id } = req.params;
 
         const { password, ...resto } = req.body;
 
-        const salt = bycriptjs.genSaltSync();
-        resto.password = bycriptjs.hashSync(password,salt);
+        const user = await Usuario.findOne({email:resto.email});
+
+        if(user?.id.toString() !== id && user) {
+           console.log('Correo duplicado - PUT');
+            return res.status(400).json({
+                ok:false,
+                msg: 'Ya existe un usuario con ese email!'
+            })
+        }
+        
+        if(password) {
+
+            const salt = bycriptjs.genSaltSync();
+            resto.password = bycriptjs.hashSync(password,salt);
+        }
 
 
 
-        const usuarioUpdated = await Usuario.findByIdAndUpdate(id, resto);
+        const usuarioUpdated = await Usuario.findByIdAndUpdate(id, resto, {new:true});
 
         res.json(usuarioUpdated)
+       } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg: 'Hable con el ADMIN'
+        })
+       }
         
 }
 
